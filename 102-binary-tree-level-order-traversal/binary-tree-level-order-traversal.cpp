@@ -12,43 +12,32 @@
  */
 class Solution {
 public:
-    int getHeight(TreeNode* node) {
-        if (node == nullptr) {
-            return 0;
-        }
-        return 1 + max(getHeight(node->left), getHeight(node->right));
-    }
+    // int getHeight(TreeNode* node) {
+    //     if (node == nullptr) {
+    //         return 0;
+    //     }
+    //     return 1 + max(getHeight(node->left), getHeight(node->right));
+    // }
 
     vector<vector<int>> levelOrder(TreeNode* root) {
-        int h = getHeight(root);
-        vector<vector<int>> ans(h);
+        vector<vector<int>> ans;
         queue<TreeNode*> q;
-        int i = 0, j = 1, k = 0;
         if (!root)
-            return {};
+            return ans;
         q.push(root);
         
         while (!q.empty()) {
-            TreeNode* curr = q.front();
-            q.pop();
+            int n=q.size();
+            vector<int>v;
 
-            ans[i].push_back(curr->val);
-            j--;
-            
-
-            if (curr->left) {
-                q.push(curr->left);
-                k++;
+            for(int i=0;i<n;i++){
+                TreeNode* curr = q.front();
+                q.pop();
+                v.push_back(curr->val);
+                if(curr->left) q.push(curr->left); 
+                if(curr->right) q.push(curr->right);
             }
-            if (curr->right) {
-                q.push(curr->right);
-                k++;
-            }
-            if (j == 0) {
-                i++;
-                j = k;
-                k = 0;
-            }
+            ans.push_back(v);
         }
         return ans;
     }
